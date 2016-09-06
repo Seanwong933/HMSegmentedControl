@@ -453,7 +453,8 @@
       CGFloat textXOffset = self.segmentEdgeInset.left;
       CGFloat textWidth = 0;
 
-      // Modified: 实现HMSegmentedControlImageTextPositionImageLeftOfText
+      // Modified:
+      // 实现HMSegmentedControlImageTextPositionImageLeftOfText的水平位置修改
       CGFloat imageRightOffset = imageWidth / 2.0f;
       if (self.segmentedImageTextPosition ==
           HMSegmentedControlImageTextPositionImageLeftOfText)
@@ -493,8 +494,14 @@
         textWidth = [self.segmentWidthsArray[idx] floatValue];
       }
 
+      // Modified:
+      // 实现HMSegmentedControlImageTextPositionImageLeftOfText的垂直位置修改
       CGFloat imageYOffset = roundf(
           (CGRectGetHeight(self.frame) - self.selectionIndicatorHeight) / 2.0f);
+      if (self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleFixed)
+        imageYOffset = roundf((CGRectGetHeight(self.frame) -
+                               self.selectionIndicatorHeight - imageHeight) /
+                              2.0f);
       CGRect imageRect =
           CGRectMake(imageXOffset, imageYOffset, imageWidth, imageHeight);
       CGRect textRect =
