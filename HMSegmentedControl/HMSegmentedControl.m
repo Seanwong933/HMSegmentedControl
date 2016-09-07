@@ -728,12 +728,21 @@
                 self.selectionIndicatorEdgeInsets.bottom);
       }
 
-      return CGRectMake(
-          (self.segmentWidth + self.selectionIndicatorEdgeInsets.left) *
-              self.selectedSegmentIndex,
-          indicatorYOffset,
-          self.segmentWidth - self.selectionIndicatorEdgeInsets.right,
-          self.selectionIndicatorHeight);
+      // Modified: 修复selectionIndicatorEdgeInsets部分设置无效的Bug
+      CGFloat indicatorXOffset =
+          self.selectedSegmentIndex
+              ? (self.segmentWidth + self.selectionIndicatorEdgeInsets.left) *
+                    self.selectedSegmentIndex
+              : self.selectionIndicatorEdgeInsets.left;
+      CGFloat indicatorWidth = self.segmentWidth -
+                               self.selectionIndicatorEdgeInsets.right -
+                               self.selectionIndicatorEdgeInsets.left;
+      return CGRectMake(indicatorXOffset, indicatorYOffset, indicatorWidth,
+                        self.selectionIndicatorHeight);
+      //			return CGRectMake((self.segmentWidth +
+      //self.selectionIndicatorEdgeInsets.left) * self.selectedSegmentIndex,
+      //indicatorYOffset, self.segmentWidth -
+      //self.selectionIndicatorEdgeInsets.right, self.selectionIndicatorHeight);
     }
   }
 }
