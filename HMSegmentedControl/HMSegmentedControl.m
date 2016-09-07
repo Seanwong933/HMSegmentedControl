@@ -445,6 +445,10 @@
   } else if (self.type == HMSegmentedControlTypeTextImages) {
     [self.sectionImages enumerateObjectsUsingBlock:^(
                             id iconImage, NSUInteger idx, BOOL *stop) {
+      BOOL isImageLeftOfText =
+          self.segmentedImageTextPosition ==
+          HMSegmentedControlImageTextPositionImageLeftOfText;
+
       UIImage *icon = iconImage;
       CGFloat imageWidth = icon.size.width;
       CGFloat imageHeight = icon.size.height;
@@ -461,10 +465,9 @@
 
       // Modified:
       // 实现HMSegmentedControlImageTextPositionImageLeftOfText的水平位置修改
-      CGFloat imageRightOffset = imageWidth / 2.0f;
-      if (self.segmentedImageTextPosition ==
-          HMSegmentedControlImageTextPositionImageLeftOfText)
-        imageRightOffset = imageWidth * 2 + 2;
+      CGFloat centerOffset = imageWidth / 2;
+      CGFloat imageRightOffset =
+          isImageLeftOfText ? imageWidth + centerOffset + 2 : imageWidth / 2.0f;
 
       if (self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleFixed) {
         // Modified:
@@ -472,7 +475,11 @@
         // - (imageWidth / 2.0f);
         imageXOffset = (self.segmentWidth * idx) + (self.segmentWidth / 2.0f) -
                        imageRightOffset;
-        textXOffset = self.segmentWidth * idx;
+        // Modified: 图片在文字左边后，文字不能单独居中，要和图片一起居中计算
+        // textXOffset = self.segmentWidth * idx;
+        textXOffset =
+            self.segmentWidth * idx + (isImageLeftOfText ? centerOffset : 0);
+
         textWidth = self.segmentWidth;
       } else if (self.segmentWidthStyle ==
                  HMSegmentedControlSegmentWidthStyleDynamic) {
@@ -496,7 +503,10 @@
         imageXOffset = xOffset +
                        ([self.segmentWidthsArray[idx] floatValue] / 2.0f) -
                        imageRightOffset;
-        textXOffset = xOffset;
+        // Modified: 图片在文字左边后，文字不能单独居中，要和图片一起居中计算
+        // textXOffset = xOffset;
+        textXOffset = xOffset + (isImageLeftOfText ? centerOffset : 0);
+
         textWidth = [self.segmentWidthsArray[idx] floatValue];
       }
 
