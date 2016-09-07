@@ -377,14 +377,16 @@
       [self.scrollView.layer addSublayer:titleLayer];
 
       // Vertical Divider
-      if (self.isVerticalDividerEnabled && idx > 0) {
-        CALayer *verticalDividerLayer = [CALayer layer];
-        verticalDividerLayer.frame = rectDiv;
-        verticalDividerLayer.backgroundColor =
-            self.verticalDividerColor.CGColor;
-
-        [self.scrollView.layer addSublayer:verticalDividerLayer];
-      }
+      //            if (self.isVerticalDividerEnabled && idx > 0) {
+      //                CALayer* verticalDividerLayer = [CALayer layer];
+      //                verticalDividerLayer.frame = rectDiv;
+      //                verticalDividerLayer.backgroundColor =
+      //                self.verticalDividerColor.CGColor;
+      //
+      //                [self.scrollView.layer
+      //                addSublayer:verticalDividerLayer];
+      //            }
+      [self.scrollView.layer addSublayer:[self dividerLayerAtSegmentIndex:idx]];
 
       [self addBackgroundAndBorderLayerWithRect:fullRect];
     }];
@@ -422,17 +424,21 @@
 
       [self.scrollView.layer addSublayer:imageLayer];
       // Vertical Divider
-      if (self.isVerticalDividerEnabled && idx > 0) {
-        CALayer *verticalDividerLayer = [CALayer layer];
-        verticalDividerLayer.frame = CGRectMake(
-            (self.segmentWidth * idx) - (self.verticalDividerWidth / 2),
-            self.selectionIndicatorHeight * 2, self.verticalDividerWidth,
-            self.frame.size.height - (self.selectionIndicatorHeight * 4));
-        verticalDividerLayer.backgroundColor =
-            self.verticalDividerColor.CGColor;
-
-        [self.scrollView.layer addSublayer:verticalDividerLayer];
-      }
+      //            if (self.isVerticalDividerEnabled && idx > 0) {
+      //                CALayer* verticalDividerLayer = [CALayer layer];
+      //                verticalDividerLayer.frame =
+      //                CGRectMake((self.segmentWidth * idx) -
+      //                (self.verticalDividerWidth / 2),
+      //                self.selectionIndicatorHeight * 2,
+      //                self.verticalDividerWidth, self.frame.size.height -
+      //                (self.selectionIndicatorHeight * 4));
+      //                verticalDividerLayer.backgroundColor =
+      //                self.verticalDividerColor.CGColor;
+      //
+      //                [self.scrollView.layer
+      //                addSublayer:verticalDividerLayer];
+      //            }
+      [self.scrollView.layer addSublayer:[self dividerLayerAtSegmentIndex:idx]];
 
       [self addBackgroundAndBorderLayerWithRect:rect];
     }];
@@ -538,6 +544,25 @@
       titleLayer.contentsScale = [[UIScreen mainScreen] scale];
       [self.scrollView.layer addSublayer:titleLayer];
 
+      //            if (self.isVerticalDividerEnabled && idx > 0) {
+      //                CALayer* verticalDividerLayer = [CALayer layer];
+      //                verticalDividerLayer.frame =
+      //                CGRectMake((self.segmentWidth * idx) -
+      //                (self.verticalDividerWidth / 2),
+      //                self.selectionIndicatorHeight * 2,
+      //                self.verticalDividerWidth, self.frame.size.height -
+      //                (self.selectionIndicatorHeight * 4));
+      //                verticalDividerLayer.backgroundColor =
+      //                self.verticalDividerColor.CGColor;
+      //
+      //                [self.scrollView.layer
+      //                addSublayer:verticalDividerLayer];
+      //            }
+
+      // Modified: 修复 HMSegmentedControlTypeTextImages 模式下没有分割线的 Bug
+      // Vertical Divider
+      [self.scrollView.layer addSublayer:[self dividerLayerAtSegmentIndex:idx]];
+
       [self addBackgroundAndBorderLayerWithRect:imageRect];
     }];
   }
@@ -565,6 +590,20 @@
       }
     }
   }
+}
+
+// Modified: 封装一下中间分割线的方法
+- (CALayer *)dividerLayerAtSegmentIndex:(NSInteger)idx {
+  if (!self.isVerticalDividerEnabled || !idx)
+    return [CALayer new];
+
+  CALayer *verticalDividerLayer = [CALayer layer];
+  verticalDividerLayer.frame =
+      CGRectMake((self.segmentWidth * idx) - (self.verticalDividerWidth / 2),
+                 self.selectionIndicatorHeight * 2, self.verticalDividerWidth,
+                 self.frame.size.height - (self.selectionIndicatorHeight * 4));
+  verticalDividerLayer.backgroundColor = self.verticalDividerColor.CGColor;
+  return verticalDividerLayer;
 }
 
 - (void)addBackgroundAndBorderLayerWithRect:(CGRect)fullRect {
@@ -740,9 +779,10 @@
       return CGRectMake(indicatorXOffset, indicatorYOffset, indicatorWidth,
                         self.selectionIndicatorHeight);
       //			return CGRectMake((self.segmentWidth +
-      //self.selectionIndicatorEdgeInsets.left) * self.selectedSegmentIndex,
-      //indicatorYOffset, self.segmentWidth -
-      //self.selectionIndicatorEdgeInsets.right, self.selectionIndicatorHeight);
+      // self.selectionIndicatorEdgeInsets.left) * self.selectedSegmentIndex,
+      // indicatorYOffset, self.segmentWidth -
+      // self.selectionIndicatorEdgeInsets.right,
+      // self.selectionIndicatorHeight);
     }
   }
 }
