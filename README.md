@@ -2,7 +2,7 @@ HMSegmentedControl
 ===
 #2016-9-7 更新
 #Bug修复：
-1. 修复 `selectionIndicatorEdgeInsets` 部分左边距无效的Bug
+1. 修复 `selectionIndicatorEdgeInsets` 左边距无效的Bug
 2. 修复 `HMSegmentedControlTypeTextImages` 模式下没有分割线的 Bug
 
 #新特性添加：
