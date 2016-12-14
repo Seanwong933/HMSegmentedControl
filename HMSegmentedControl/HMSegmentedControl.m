@@ -748,11 +748,7 @@ HMSegmentedControl ()
       }
 
       // Modified: 修复selectionIndicatorEdgeInsets部分设置无效的Bug
-      CGFloat indicatorXOffset =
-              self.selectedSegmentIndex
-                      ? (self.segmentWidth + self.selectionIndicatorEdgeInsets.left) *
-                      self.selectedSegmentIndex
-                      : self.selectionIndicatorEdgeInsets.left;
+      CGFloat indicatorXOffset = self.selectionIndicatorEdgeInsets.left + self.segmentWidth * self.selectedSegmentIndex;
       CGFloat indicatorWidth = self.segmentWidth -
               self.selectionIndicatorEdgeInsets.right -
               self.selectionIndicatorEdgeInsets.left;
