@@ -1,11 +1,11 @@
 HMSegmentedControl
 ===
-#2016-9-7 更新
-#Bug修复：
-1. 修复 `selectionIndicatorEdgeInsets` 左边距无效的Bug
+# 2016-9-7 更新
+# Bug修复：
+1. 修复 `selectionIndicatorEdgeInsets` 左边距无效的 Bug
 2. 修复 `HMSegmentedControlTypeTextImages` 模式下没有分割线的 Bug
 
-#新特性添加：
+# 新特性添加：
 实现在 `HMSegmentedControlTypeTextImages` 显示模式下，图片显示在文字左边的效果。
 用法：
 ```oc
